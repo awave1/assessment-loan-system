@@ -2,31 +2,15 @@ package com.keirnellyer.glencaldy.repository;
 
 import com.keirnellyer.glencaldy.item.Item;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-public class StockRepository implements Repository<Integer, Item> {
-
-    private final List<Item> items = new ArrayList<>();
-
-    @Override
-    public List<Item> getAll() {
-        return items;
-    }
-
+public class StockRepository extends Repository<Integer, Item> {
     @Override
     public Item get(Integer id) {
-        for (Item item : items) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void add(Item item) {
-        items.add(item);
+        return this.repoContents
+            .stream()
+            .filter(item -> item.getId() == id)
+            .findFirst()
+            .orElse(null);
     }
 }
