@@ -4,6 +4,7 @@ import com.keirnellyer.glencaldy.item.Book;
 import com.keirnellyer.glencaldy.item.Disc;
 import com.keirnellyer.glencaldy.item.Journal;
 import com.keirnellyer.glencaldy.item.Video;
+import com.keirnellyer.glencaldy.repository.Repository;
 import com.keirnellyer.glencaldy.repository.StockRepository;
 import com.keirnellyer.glencaldy.repository.UserRepository;
 import com.keirnellyer.glencaldy.user.*;
@@ -11,22 +12,22 @@ import com.keirnellyer.glencaldy.user.*;
 import java.time.LocalDate;
 
 public class Model {
-
     private final UserRepository userRepository = new UserRepository();
     private final StockRepository stockRepository = new StockRepository();
 
     private int userIdCounter = 0;
     private int itemIdCounter = 0;
 
-    public UserRepository getUserRepository() {
+    UserRepository getUserRepository() {
         return userRepository;
     }
 
-    public StockRepository getStockRepository() {
+    StockRepository getStockRepository() {
         return stockRepository;
     }
 
-    public void populateUsers() {
+    void populateUsers() {
+
         Administrative administrative = new Administrative("admin", "password", "200 Admin Crescent",
                 "01383 757847", LocalDate.of(1977, 3, 28), userIdCounter++, "admin@glencaldy.com", "44");
 
@@ -51,22 +52,21 @@ public class Model {
         Casual casual3 = new Casual("mkirkwood", "campus", "55 George Street", "01758 839578",
                 LocalDate.of(1997, 7, 7));
 
-        userRepository.add(administrative);
-
-        userRepository.add(staffUser1);
-        userRepository.add(staffUser2);
-        userRepository.add(staffUser3);
-
-        userRepository.add(member1);
-        userRepository.add(member2);
-        userRepository.add(member3);
-
-        userRepository.add(casual1);
-        userRepository.add(casual2);
-        userRepository.add(casual3);
+        userRepository.add(
+            administrative,
+            staffUser1,
+            staffUser2,
+            staffUser3,
+            member1,
+            member2,
+            member3,
+            casual1,
+            casual2,
+            casual3
+        );
     }
 
-    public void populateItems() {
+    void populateItems() {
         Book book1 = new Book(itemIdCounter++, "25 Tones of Red", "McPublishers", 20, "Fantasy", 750,
                 "2360-8005", "Richard Donaldson");
         Book book2 = new Book(itemIdCounter++, "Diary of a Wimpy Kid", "Publisher & Sons", 10, "School", 420,
@@ -95,21 +95,20 @@ public class Model {
         Video video3 = new Video(itemIdCounter++, "Transporter", "CarFilmz", 30, 180, "Plastic", "DVD",
                 "Action");
 
-        stockRepository.add(book1);
-        stockRepository.add(book2);
-        stockRepository.add(book3);
-
-        stockRepository.add(disc1);
-        stockRepository.add(disc2);
-        stockRepository.add(disc3);
-
-        stockRepository.add(journal1);
-        stockRepository.add(journal2);
-        stockRepository.add(journal3);
-
-        stockRepository.add(video1);
-        stockRepository.add(video2);
-        stockRepository.add(video3);
+        stockRepository.add(
+            book1,
+            book2,
+            book3,
+            disc1,
+            disc2,
+            disc3,
+            journal1,
+            journal2,
+            journal3,
+            video1,
+            video2,
+            video3
+        );
     }
 
     @Override

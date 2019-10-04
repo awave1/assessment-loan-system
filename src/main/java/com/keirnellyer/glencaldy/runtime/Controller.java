@@ -21,8 +21,13 @@ import com.keirnellyer.glencaldy.user.*;
 import java.util.Scanner;
 
 public class Controller implements Application {
-
     private static final Model model = new Model();
+
+    // by default Scanner uses a space as a delimiter however we always want to
+    // read the full line
+    private Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
+    private Session currentSession;
+    private boolean running;
 
     public static void main(String[] args) {
         populateModel();
@@ -31,16 +36,10 @@ public class Controller implements Application {
         controller.start();
     }
 
-    public static void populateModel() {
+    private static void populateModel() {
         model.populateItems();
         model.populateUsers();
     }
-
-    // by default Scanner uses a space as a delimiter however we always want to
-    // read the full line
-    private Scanner scanner = new Scanner(System.in).useDelimiter("\\n");
-    private Session currentSession;
-    private boolean running;
 
     @Override
     public void start() {
@@ -74,7 +73,7 @@ public class Controller implements Application {
         running = false;
     }
 
-    public User processLogin() {
+    private User processLogin() {
         User user;
 
         do {
@@ -84,7 +83,7 @@ public class Controller implements Application {
             System.out.println("Please enter your password.");
             String password = scanner.next();
 
-            user = findUser(username, password);
+            user = model.getUserRepository().getExact(username, password);
 
             if (user == null) { // invalid credentials
                 System.out.println("Invalid credentials, please try again.");
@@ -123,24 +122,9 @@ public class Controller implements Application {
         }
 
         menu.addItem(new EditProfileOption(user));
-        //menu.addItem(new ChangePasswordOption(user));
         menu.addItem(new LogoutOption(currentSession));
         menu.addItem(new ExitApplicationOption(this));
 
         return menu;
-    }
-
-    private User findUser(String username, String password) {
-        for (User user : model.getUserRepository().getAll()) {
-            if (checkCredentials(user, username, password)) {
-                return user;
-            }
-        }
-
-        return null;
-    }
-
-    private boolean checkCredentials(User user, String username, String password) {
-        return user.getUsername().equalsIgnoreCase(username) && user.getPassword().equals(password);
     }
 }

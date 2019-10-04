@@ -1,6 +1,7 @@
 package com.keirnellyer.glencaldy.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Repository<K, V> {
     ArrayList<V> repoContents = new ArrayList<>();
@@ -13,5 +14,9 @@ public abstract class Repository<K, V> {
 
     public void add(V value) {
         this.repoContents.add(value);
+    }
+
+    public void add(V... values) {
+        this.repoContents.addAll(Arrays.asList(values));
     }
 }

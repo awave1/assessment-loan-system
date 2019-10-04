@@ -71,4 +71,20 @@ class UserRepositoryTest {
         });
 
     }
+
+    @Test
+    void shouldGetUserByUsernameAndPassword() {
+        UserRepository userRepo = new UserRepository();
+
+        // Add a user
+        userRepo.add(users.get(0));
+        String username = users.get(0).getUsername();
+        String password = users.get(0).getPassword();
+
+        User user = userRepo.getExact(username, password);
+
+        assertNotNull(user);
+        assertEquals(username, user.getUsername());
+        assertEquals(password, user.getPassword());
+    }
 }
