@@ -9,7 +9,7 @@ public abstract class Option {
         this.name = name;
     }
 
-    public String getDisplayName() {
+    String getDisplayName() {
         return name;
     }
 

@@ -24,7 +24,7 @@ public class EditProfileOption extends Option {
         edit(scanner, propertyManager, manipulator);
     }
 
-    public void edit(Scanner scanner, PropertyManager propertyManager, Manipulator<? super User> manipulator) {
+    private void edit(Scanner scanner, PropertyManager propertyManager, Manipulator<? super User> manipulator) {
         InputResult result = propertyManager.fetchResult(scanner, true);
 
         if (result != null) {
