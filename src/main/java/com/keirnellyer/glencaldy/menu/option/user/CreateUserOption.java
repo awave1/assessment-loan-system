@@ -1,13 +1,9 @@
 package com.keirnellyer.glencaldy.menu.option.user;
 
 import com.keirnellyer.glencaldy.manipulation.Manipulators;
-import com.keirnellyer.glencaldy.manipulation.Manipulator;
-import com.keirnellyer.glencaldy.manipulation.property.PropertyManager;
-import com.keirnellyer.glencaldy.manipulation.property.InputResult;
 import com.keirnellyer.glencaldy.menu.Menu;
 import com.keirnellyer.glencaldy.menu.Option;
 import com.keirnellyer.glencaldy.repository.UserRepository;
-import com.keirnellyer.glencaldy.user.*;
 
 import java.util.Scanner;
 
