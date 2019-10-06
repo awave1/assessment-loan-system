@@ -14,22 +14,6 @@ public class Session {
         this.loginTime = loginTime;
     }
 
-    public int getComputerId() {
-        return computerId;
-    }
-
-    public void setComputerId(int computerId) {
-        this.computerId = computerId;
-    }
-
-    public long getLoginTime() {
-        return loginTime;
-    }
-
-    public Long getLogoutTime() {
-        return logoutTime;
-    }
-
     public void setLogoutTime(Long logoutTime) {
         this.logoutTime = logoutTime;
     }

@@ -16,7 +16,8 @@ public abstract class Repository<K, V> {
         this.repoContents.add(value);
     }
 
-    public void add(V... values) {
+    @SafeVarargs
+    public final void add(V... values) {
         this.repoContents.addAll(Arrays.asList(values));
     }
 }

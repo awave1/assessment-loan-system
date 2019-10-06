@@ -12,11 +12,6 @@ public class ItemProperty extends BasicProperty<Item> {
         this.stockRepository = stockRepository;
     }
 
-    public ItemProperty(String askMsg, boolean editable, StockRepository stockRepository) {
-        super(askMsg, editable);
-        this.stockRepository = stockRepository;
-    }
-
     @Override
     protected Item parse(String input) throws InputException {
         int itemId;

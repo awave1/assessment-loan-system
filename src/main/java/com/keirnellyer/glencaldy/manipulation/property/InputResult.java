@@ -11,10 +11,6 @@ public class InputResult {
         this.values = values;
     }
 
-    public Map<Property<?>, Object> getValues() {
-        return values;
-    }
-
     public <T> T getValue(Property<T> property) {
         return (T) values.get(property);
     }

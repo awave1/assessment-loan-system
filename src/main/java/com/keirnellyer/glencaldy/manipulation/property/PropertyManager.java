@@ -7,10 +7,6 @@ import java.util.*;
 public class PropertyManager {
     private final List<Property<?>> properties = new ArrayList<>();
 
-    public List<Property<?>> getProperties() {
-        return properties;
-    }
-
     public void addProperty(Property<?> property) {
         properties.add(property);
     }

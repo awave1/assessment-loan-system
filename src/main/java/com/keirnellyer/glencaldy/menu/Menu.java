@@ -32,14 +32,6 @@ public class Menu {
         this.title = title;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public Map<String, Option> getItems() {
-        return items;
-    }
-
     public void addItem(Option item) {
         addItem(String.valueOf(charIndex++), item);
     }

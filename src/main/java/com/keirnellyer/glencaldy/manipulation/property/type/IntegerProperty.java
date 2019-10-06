@@ -12,7 +12,7 @@ public class IntegerProperty extends BasicProperty<Integer> {
     }
 
     @Override
-    protected Integer parse(String input) throws InputException {
+    protected Integer parse(String input) {
         return Integer.parseInt(input);
     }
 }

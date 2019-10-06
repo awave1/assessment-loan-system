@@ -12,10 +12,6 @@ public class LocalDateProperty extends BasicProperty<LocalDate> {
         super(askMsg);
     }
 
-    public LocalDateProperty(String askMsg, boolean editable) {
-        super(askMsg, editable);
-    }
-
     @Override
     protected LocalDate parse(String input) throws InputException {
         try {

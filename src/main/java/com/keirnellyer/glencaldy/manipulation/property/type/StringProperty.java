@@ -12,7 +12,7 @@ public class StringProperty extends BasicProperty<String> {
     }
 
     @Override
-    protected String parse(String input) throws InputException {
+    protected String parse(String input) {
         return input;
     }
 }

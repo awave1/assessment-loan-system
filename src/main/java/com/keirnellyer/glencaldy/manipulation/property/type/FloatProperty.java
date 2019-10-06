@@ -7,12 +7,8 @@ public class FloatProperty extends BasicProperty<Float> {
         super(askMsg);
     }
 
-    public FloatProperty(String askMsg, boolean editable) {
-        super(askMsg, editable);
-    }
-
     @Override
-    protected Float parse(String input) throws InputException {
+    protected Float parse(String input) {
         return Float.parseFloat(input);
     }
 }

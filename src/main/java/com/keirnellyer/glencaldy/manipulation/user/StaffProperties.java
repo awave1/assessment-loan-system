@@ -7,8 +7,6 @@ import com.keirnellyer.glencaldy.user.Administrative;
 import com.keirnellyer.glencaldy.user.Staff;
 import com.keirnellyer.glencaldy.user.UserInfo;
 
-import java.time.LocalDate;
-
 public class StaffProperties extends CasualProperties {
 
     private final IntegerProperty staffIdProperty = new IntegerProperty("Please enter the staff id.", false);

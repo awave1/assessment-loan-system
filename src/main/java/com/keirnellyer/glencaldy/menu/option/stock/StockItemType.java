@@ -1,5 +1,6 @@
 package com.keirnellyer.glencaldy.menu.option.stock;
 
+@SuppressWarnings("CanBeFinal")
 public enum StockItemType {
     BOOK("Book"),
     JOURNAL("Journal"),

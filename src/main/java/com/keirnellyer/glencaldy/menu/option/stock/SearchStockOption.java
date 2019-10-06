@@ -4,7 +4,6 @@ import com.keirnellyer.glencaldy.item.Item;
 import com.keirnellyer.glencaldy.menu.Option;
 import com.keirnellyer.glencaldy.repository.StockRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;

@@ -1,6 +1,7 @@
 package com.keirnellyer.glencaldy.menu.option.user;
 
 
+@SuppressWarnings("CanBeFinal")
 public enum UserType {
     CASUAL("Casual"),
     FULL("Full"),
