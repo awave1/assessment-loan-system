@@ -28,7 +28,7 @@ public class SearchStockOption extends Option {
         List<Item> results = searchCatalogue(search);
 
         if (results.size() > 0) {
-            System.out.printf(FORMAT, (Object[]) HEADER);
+            System.out.printf(FORMAT, HEADER);
 
             for (Item result : results) {
                 System.out.printf(FORMAT, result.getId(), result.getName(), result.getStockType(), result.getCost());

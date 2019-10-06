@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Casual extends User {
-    private String address = null;
-    private String phoneNumber = null;
-    private LocalDate birthDate = null;
+    private String address;
+    private String phoneNumber;
+    private LocalDate birthDate;
 
     public Casual(String username, String password, String address, String phoneNumber, LocalDate birthDate) {
         super(username, password);

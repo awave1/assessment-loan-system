@@ -36,14 +36,6 @@ public class LoanProperties extends PropertyManager {
         return userProperty;
     }
 
-    public ItemProperty getItemProperty() {
-        return itemProperty;
-    }
-
-    public LocalDateProperty getReturnDateProperty() {
-        return returnDateProperty;
-    }
-
     public Loan createLoan(InputResult result) {
         Item item = result.getValue(itemProperty);
         LocalDate returnDate = result.getValue(returnDateProperty);

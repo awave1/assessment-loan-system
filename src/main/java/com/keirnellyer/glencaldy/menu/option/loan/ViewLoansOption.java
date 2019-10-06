@@ -26,7 +26,7 @@ public class ViewLoansOption extends Option {
         List<Loan> loans = member.getLoans();
 
         if (loans.size() > 0) {
-            System.out.printf(FORMAT, (Object[]) HEADER);
+            System.out.printf(FORMAT, HEADER);
 
             for (Loan loan : loans) {
                 Item item = loan.getItem();

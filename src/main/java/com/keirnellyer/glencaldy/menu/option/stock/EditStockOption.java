@@ -25,7 +25,7 @@ public class EditStockOption extends Option {
 
     @Override
     public void start(Scanner scanner) {
-        System.out.printf(STOCK_FORMAT, (Object[]) STOCK_HEADER);
+        System.out.printf(STOCK_FORMAT, STOCK_HEADER);
 
         Menu menu = new Menu("Select Stock (by id)");
 

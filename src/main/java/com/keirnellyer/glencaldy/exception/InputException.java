@@ -12,11 +12,11 @@ public class InputException extends Exception {
         super(message, cause);
     }
 
-    public InputException(Throwable cause) {
+    InputException(Throwable cause) {
         super(cause);
     }
 
-    public InputException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    InputException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

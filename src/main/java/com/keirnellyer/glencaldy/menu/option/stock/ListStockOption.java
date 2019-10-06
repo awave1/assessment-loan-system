@@ -74,7 +74,7 @@ public class ListStockOption extends Option {
         String[] header = Util.combineArrays(new String[Util.getTotalLength(headerTitles)], headerTitles);
 
         // print header
-        System.out.printf(format, (Object[]) header);
+        System.out.printf(format, header);
 
         // print rows
         for (Book book : books) {
@@ -84,7 +84,7 @@ public class ListStockOption extends Option {
 
             String[][] dataArrays = new String[][]{itemData, paperData, bookData};
             String[] rowData = Util.combineArrays(new String[Util.getTotalLength(dataArrays)], dataArrays);
-            System.out.printf(format, (Object[]) rowData);
+            System.out.printf(format, rowData);
         }
     }
 
@@ -102,7 +102,7 @@ public class ListStockOption extends Option {
         String[] header = Util.combineArrays(new String[Util.getTotalLength(headerTitles)], headerTitles);
 
         // print header
-        System.out.printf(format, (Object[]) header);
+        System.out.printf(format, header);
 
         // print rows
         for (Journal journal : journals) {
@@ -112,7 +112,7 @@ public class ListStockOption extends Option {
 
             String[][] dataArrays = new String[][]{itemData, paperData, journalData};
             String[] rowData = Util.combineArrays(new String[Util.getTotalLength(dataArrays)], dataArrays);
-            System.out.printf(format, (Object[]) rowData);
+            System.out.printf(format, rowData);
         }
     }
 
@@ -130,7 +130,7 @@ public class ListStockOption extends Option {
         String[] header = Util.combineArrays(new String[Util.getTotalLength(headerTitles)], headerTitles);
 
         // print header
-        System.out.printf(format, (Object[]) header);
+        System.out.printf(format, header);
 
         // print rows
         for (Disc disc : discs) {
@@ -140,7 +140,7 @@ public class ListStockOption extends Option {
 
             String[][] dataArrays = new String[][]{itemData, mediaData, discData};
             String[] rowData = Util.combineArrays(new String[Util.getTotalLength(dataArrays)], dataArrays);
-            System.out.printf(format, (Object[]) rowData);
+            System.out.printf(format, rowData);
         }
     }
 
@@ -158,7 +158,7 @@ public class ListStockOption extends Option {
         String[] header = Util.combineArrays(new String[Util.getTotalLength(headerTitles)], headerTitles);
 
         // print header
-        System.out.printf(format, (Object[]) header);
+        System.out.printf(format, header);
 
         // print rows
         for (Video video : videos) {
@@ -168,7 +168,7 @@ public class ListStockOption extends Option {
 
             String[][] dataArrays = new String[][]{itemData, mediaData, videoData};
             String[] rowData = Util.combineArrays(new String[Util.getTotalLength(dataArrays)], dataArrays);
-            System.out.printf(format, (Object[]) rowData);
+            System.out.printf(format, rowData);
         }
     }
 

@@ -4,7 +4,6 @@ import com.keirnellyer.glencaldy.item.Book;
 import com.keirnellyer.glencaldy.item.Disc;
 import com.keirnellyer.glencaldy.item.Journal;
 import com.keirnellyer.glencaldy.item.Video;
-import com.keirnellyer.glencaldy.repository.Repository;
 import com.keirnellyer.glencaldy.repository.StockRepository;
 import com.keirnellyer.glencaldy.repository.UserRepository;
 import com.keirnellyer.glencaldy.user.*;
