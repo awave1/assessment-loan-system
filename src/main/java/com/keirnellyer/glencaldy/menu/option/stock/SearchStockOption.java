@@ -7,6 +7,7 @@ import com.keirnellyer.glencaldy.repository.StockRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class SearchStockOption extends Option {
 
@@ -39,16 +40,10 @@ public class SearchStockOption extends Option {
     }
 
     private List<Item> searchCatalogue(String term) {
-        List<Item> results = new ArrayList<>();
         String lower = term.toLowerCase();
 
-        for (Item item : stockRepository.getAll()) {
-            // compare both lower case making this function case-insensitive
-            if (item.getName().toLowerCase().contains(lower)) {
-                results.add(item);
-            }
-        }
-
-        return results;
+        return stockRepository.getAll().stream()
+            .filter(item -> item.getName().toLowerCase().contains(lower))
+            .collect(Collectors.toList());
     }
 }

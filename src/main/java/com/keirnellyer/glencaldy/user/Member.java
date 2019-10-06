@@ -34,13 +34,10 @@ public class Member extends Casual {
     }
 
     public Loan getLoan(Item item) {
-        for (Loan loan : loans) {
-            if (loan.getItem() == item) {
-                return loan;
-            }
-        }
-
-        return null;
+        return loans.stream()
+            .filter(loan -> loan.getItem().equals(item))
+            .findFirst()
+            .orElse(null);
     }
 
     @Override

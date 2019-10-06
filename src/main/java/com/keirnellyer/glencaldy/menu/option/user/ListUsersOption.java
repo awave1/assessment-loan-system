@@ -21,19 +21,18 @@ public class ListUsersOption extends Option {
 
     @Override
     public void start(Scanner scanner) {
-        System.out.printf(FORMAT, "Type", "Username", "Password", "Address", "Phone Number", "Birth Date",
-                "Staff ID", "Email", "Ext.");
+        System.out.printf(FORMAT, "Type", "Username", "Password", "Address", "Phone Number", "Birth Date", "Staff ID", "Email", "Ext.");
 
         for (User user : userRepository.getAll()) {
             String type = user.getTitle();
             String username = user.getUsername();
             String password = user.getPassword();
-            String address = "N/A";
-            String phone = "N/A";
-            String birth = "N/A";
-            String staffId = "N/A";
-            String email = "N/A";
-            String extension = "N/A";
+            String address = Constants.NOT_AVAILABLE;
+            String phone = Constants.NOT_AVAILABLE;
+            String birth = Constants.NOT_AVAILABLE;
+            String staffId = Constants.NOT_AVAILABLE;
+            String email = Constants.NOT_AVAILABLE;
+            String extension = Constants.NOT_AVAILABLE;
 
             if (user instanceof Casual) {
                 Casual casual = (Casual) user;
