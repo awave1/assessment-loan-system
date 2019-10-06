@@ -26,10 +26,6 @@ public abstract class User {
         this.password = password;
     }
 
-    public Session getSession() {
-        return session;
-    }
-
     public void setSession(Session session) {
         this.session = session;
     }

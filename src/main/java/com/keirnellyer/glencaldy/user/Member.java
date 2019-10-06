@@ -18,26 +18,6 @@ public class Member extends Casual {
         super(username, password, address, phoneNumber, birthDate);
     }
 
-    public int getMaxQuota() {
-        return maxQuota;
-    }
-
-    public void setMaxQuota(int maxQuota) {
-        this.maxQuota = maxQuota;
-    }
-
-    public int getQuota() {
-        return maxQuota - (reservedItems.size() + loans.size());
-    }
-
-    public List<Item> getReservedItems() {
-        return reservedItems;
-    }
-
-    public void reserveItem(Item item) {
-        reservedItems.add(item);
-    }
-
     public List<Loan> getLoans() {
         return loans;
     }

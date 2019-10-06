@@ -17,28 +17,20 @@ public class Manipulators {
     public static final CasualProperties CASUAL_MANAGER = new CasualProperties();
     public static final StaffProperties STAFF_MANAGER = new StaffProperties();
 
-    public static final Manipulator<Member> MEMBER_MANIPULATOR =
-            new SimpleManipulator<>(CASUAL_MANAGER::createFullMember, CASUAL_MANAGER::updateCasual);
-    public static final Manipulator<Casual> CASUAL_MANIPULATOR =
-            new SimpleManipulator<>(CASUAL_MANAGER::createCasual, CASUAL_MANAGER::updateCasual);
-    public static final Manipulator<Administrative> ADMINISTRATIVE_MANIPULATOR =
-            new SimpleManipulator<>(STAFF_MANAGER::createAdministrative, STAFF_MANAGER::updateStaff);
-    public static final Manipulator<Staff> STAFF_MANIPULATOR =
-            new SimpleManipulator<>(STAFF_MANAGER::createStaff, STAFF_MANAGER::updateStaff);
+    public static final Manipulator<Member> MEMBER_MANIPULATOR = new SimpleManipulator<>(CASUAL_MANAGER::createFullMember, CASUAL_MANAGER::updateCasual);
+    public static final Manipulator<Casual> CASUAL_MANIPULATOR = new SimpleManipulator<>(CASUAL_MANAGER::createCasual, CASUAL_MANAGER::updateCasual);
+    public static final Manipulator<Administrative> ADMINISTRATIVE_MANIPULATOR = new SimpleManipulator<>(STAFF_MANAGER::createAdministrative, STAFF_MANAGER::updateStaff);
+    public static final Manipulator<Staff> STAFF_MANIPULATOR = new SimpleManipulator<>(STAFF_MANAGER::createStaff, STAFF_MANAGER::updateStaff);
 
     public static final BookProperties BOOK_MANAGER = new BookProperties();
     public static final JournalProperties JOURNAL_MANAGER = new JournalProperties();
     public static final DiscProperties DISC_MANAGER = new DiscProperties();
     public static final VideoProperties VIDEO_MANAGER = new VideoProperties();
 
-    public static final Manipulator<Book> BOOK_MANIPULATOR =
-            new SimpleManipulator<>(BOOK_MANAGER::createBook, BOOK_MANAGER::updateBook);
-    public static final Manipulator<Journal> JOURNAL_MANIPULATOR =
-            new SimpleManipulator<>(JOURNAL_MANAGER::createJournal, JOURNAL_MANAGER::updateJournal);
-    public static final Manipulator<Disc> DISC_MANIPULATOR =
-            new SimpleManipulator<>(DISC_MANAGER::createCompactDisc, DISC_MANAGER::updateCompactDisc);
-    public static final Manipulator<Video> VIDEO_MANIPULATOR =
-            new SimpleManipulator<>(VIDEO_MANAGER::createVideo, VIDEO_MANAGER::updateVideo);
+    public static final Manipulator<Book> BOOK_MANIPULATOR = new SimpleManipulator<>(BOOK_MANAGER::createBook, BOOK_MANAGER::updateBook);
+    public static final Manipulator<Journal> JOURNAL_MANIPULATOR = new SimpleManipulator<>(JOURNAL_MANAGER::createJournal, JOURNAL_MANAGER::updateJournal);
+    public static final Manipulator<Disc> DISC_MANIPULATOR = new SimpleManipulator<>(DISC_MANAGER::createCompactDisc, DISC_MANAGER::updateCompactDisc);
+    public static final Manipulator<Video> VIDEO_MANIPULATOR = new SimpleManipulator<>(VIDEO_MANAGER::createVideo, VIDEO_MANAGER::updateVideo);
 
     public static PropertyManager getUserPropertyManager(Class<? extends User> clazz) {
         PropertyManager propertyManager;
