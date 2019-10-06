@@ -28,7 +28,7 @@ public class ViewLoansOption extends Option {
         if (loans.size() > 0) {
             System.out.printf(FORMAT, HEADER);
 
-            for (Loan loan : loans) {
+            loans.forEach(loan -> {
                 Item item = loan.getItem();
                 int id = item.getId();
                 String name = item.getName();
@@ -36,8 +36,8 @@ public class ViewLoansOption extends Option {
                 String loanDate = Constants.DATE_FORMATTER.format(loan.getLoanDate());
                 String returnDate = Constants.DATE_FORMATTER.format(loan.getReturnByDate());
 
-                String overdue = "N/A";
-                String fine = "N/A";
+                String overdue = Constants.NOT_AVAILABLE;
+                String fine = Constants.NOT_AVAILABLE;
                 long daysSince = Util.daysSince(loan.getReturnByDate());
 
                 if (daysSince > 0) {
@@ -46,7 +46,7 @@ public class ViewLoansOption extends Option {
                 }
 
                 System.out.printf(FORMAT, id, name, loanDate, returnDate, overdue, fine);
-            }
+            });
         } else {
             System.out.println("No outstanding loans.");
         }

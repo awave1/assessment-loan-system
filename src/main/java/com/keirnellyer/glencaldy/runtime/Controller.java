@@ -2,18 +2,6 @@ package com.keirnellyer.glencaldy.runtime;
 
 import com.keirnellyer.glencaldy.Session;
 import com.keirnellyer.glencaldy.menu.Menu;
-import com.keirnellyer.glencaldy.menu.option.loan.CreateLoanOption;
-import com.keirnellyer.glencaldy.menu.option.ExitApplicationOption;
-import com.keirnellyer.glencaldy.menu.option.LogoutOption;
-import com.keirnellyer.glencaldy.menu.option.loan.LoanReturnOption;
-import com.keirnellyer.glencaldy.menu.option.loan.ViewLoansOption;
-import com.keirnellyer.glencaldy.menu.option.stock.ListStockOption;
-import com.keirnellyer.glencaldy.menu.option.stock.CreateStockOption;
-import com.keirnellyer.glencaldy.menu.option.stock.EditStockOption;
-import com.keirnellyer.glencaldy.menu.option.stock.SearchStockOption;
-import com.keirnellyer.glencaldy.menu.option.user.EditProfileOption;
-import com.keirnellyer.glencaldy.menu.option.user.ListUsersOption;
-import com.keirnellyer.glencaldy.menu.option.user.CreateUserOption;
 import com.keirnellyer.glencaldy.repository.StockRepository;
 import com.keirnellyer.glencaldy.repository.UserRepository;
 import com.keirnellyer.glencaldy.user.*;
@@ -30,15 +18,10 @@ public class Controller implements Application {
     private boolean running;
 
     public static void main(String[] args) {
-        populateModel();
-
-        Controller controller = new Controller();
-        controller.start();
-    }
-
-    private static void populateModel() {
         model.populateItems();
         model.populateUsers();
+
+        new Controller().start();
     }
 
     @Override
@@ -94,37 +77,11 @@ public class Controller implements Application {
     }
 
     private Menu buildMenu(User user) {
-        Menu menu = new Menu(String.format("%s Options", user.getTitle()));
-
         UserRepository userRepository = model.getUserRepository();
         StockRepository stockRepository = model.getStockRepository();
 
-        if (user instanceof Casual) {
-            menu.addItem(new SearchStockOption(stockRepository));
-        }
-
-        if (user instanceof Member) {
-            menu.addItem(new ViewLoansOption((Member) user));
-        }
-
-        if (user instanceof Staff) {
-            // currently no special staff options
-        }
-
-        if (user instanceof Administrative) {
-            menu.addItem(new CreateUserOption(userRepository));
-            menu.addItem(new ListUsersOption(userRepository));
-            menu.addItem(new CreateStockOption(stockRepository));
-            menu.addItem(new EditStockOption(stockRepository));
-            menu.addItem(new ListStockOption(stockRepository));
-            menu.addItem(new CreateLoanOption(userRepository, stockRepository));
-            menu.addItem(new LoanReturnOption(userRepository, stockRepository));
-        }
-
-        menu.addItem(new EditProfileOption(user));
-        menu.addItem(new LogoutOption(currentSession));
-        menu.addItem(new ExitApplicationOption(this));
-
+        Menu menu = new Menu(String.format("%s Options", user.getTitle()));
+        menu.buildFor(this, currentSession, user, userRepository, stockRepository);
         return menu;
     }
 }
