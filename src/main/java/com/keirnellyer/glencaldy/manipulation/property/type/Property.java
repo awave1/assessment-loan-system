@@ -8,13 +8,13 @@ import java.util.Scanner;
 public abstract class Property<T> {
     private boolean editable = true;
 
-    public Property() {}
+    Property() {}
 
     public boolean isEditable() {
         return editable;
     }
 
-    protected void setEditable(boolean editable) {
+    void setEditable(boolean editable) {
         this.editable = editable;
     }
 

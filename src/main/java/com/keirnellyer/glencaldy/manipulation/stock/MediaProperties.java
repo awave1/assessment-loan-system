@@ -5,27 +5,27 @@ import com.keirnellyer.glencaldy.manipulation.property.InputResult;
 import com.keirnellyer.glencaldy.manipulation.property.type.IntegerProperty;
 import com.keirnellyer.glencaldy.manipulation.property.type.StringProperty;
 
-public class MediaProperties extends ItemProperties {
+class MediaProperties extends ItemProperties {
     private final IntegerProperty runningTimeProperty = new IntegerProperty("Please enter the " +
             "running time.");
     private final StringProperty caseTypeProperty = new StringProperty("Please enter the case type.");
 
-    public MediaProperties() {
+    MediaProperties() {
         super();
 
         addProperty(runningTimeProperty);
         addProperty(caseTypeProperty);
     }
 
-    public IntegerProperty getRunningTimeProperty() {
+    IntegerProperty getRunningTimeProperty() {
         return runningTimeProperty;
     }
 
-    public StringProperty getCaseTypeProperty() {
+    StringProperty getCaseTypeProperty() {
         return caseTypeProperty;
     }
 
-    public void updateMedia(Media item, InputResult result) {
+    void updateMedia(Media item, InputResult result) {
         super.updateItem(item, result);
 
         Integer runningTime = result.getValue(runningTimeProperty);

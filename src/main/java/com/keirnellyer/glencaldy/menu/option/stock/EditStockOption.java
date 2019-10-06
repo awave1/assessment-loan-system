@@ -58,7 +58,7 @@ public class EditStockOption extends Option {
         private final PropertyManager propertyManager;
         private final Manipulator<T> manipulator;
 
-        public SelectItem(T item, PropertyManager propertyManager, Manipulator<T> manipulator) {
+        SelectItem(T item, PropertyManager propertyManager, Manipulator<T> manipulator) {
             super(item.getName());
             this.item = item;
             this.propertyManager = propertyManager;

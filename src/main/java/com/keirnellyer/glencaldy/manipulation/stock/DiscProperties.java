@@ -18,15 +18,15 @@ public class DiscProperties extends MediaProperties {
         addProperty(artistProperty);
     }
 
-    public StringProperty getTypeProperty() {
+    private StringProperty getTypeProperty() {
         return typeProperty;
     }
 
-    public IntegerProperty getTracksProperty() {
+    private IntegerProperty getTracksProperty() {
         return tracksProperty;
     }
 
-    public StringProperty getArtistProperty() {
+    private StringProperty getArtistProperty() {
         return artistProperty;
     }
 

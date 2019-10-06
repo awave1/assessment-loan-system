@@ -1,7 +1,7 @@
 package com.keirnellyer.glencaldy.exception;
 
 public class InputException extends Exception {
-    public InputException() {
+    InputException() {
     }
 
     public InputException(String message) {

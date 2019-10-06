@@ -6,7 +6,7 @@ public abstract class Paper extends Item {
     private String subjectArea;
     private int pages;
 
-    public Paper(int id, String title, String publisher, float cost, String subjectArea, int pages) {
+    Paper(int id, String title, String publisher, float cost, String subjectArea, int pages) {
         super(id, title, publisher, cost);
         this.subjectArea = subjectArea;
         this.pages = pages;

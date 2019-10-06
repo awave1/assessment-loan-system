@@ -8,7 +8,7 @@ public abstract class Item {
     private String publisher;
     private float cost;
 
-    public Item(int id, String name, String publisher, float cost) {
+    Item(int id, String name, String publisher, float cost) {
         this.id = id;
         this.name = name;
         this.publisher = publisher;

@@ -10,7 +10,7 @@ import com.keirnellyer.glencaldy.user.*;
 
 import java.time.LocalDate;
 
-public class Model {
+class Model {
     private final UserRepository userRepository = new UserRepository();
     private final StockRepository stockRepository = new StockRepository();
 

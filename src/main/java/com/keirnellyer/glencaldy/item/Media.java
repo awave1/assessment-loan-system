@@ -6,7 +6,7 @@ public abstract class Media extends Item {
     private int runningTime;
     private String caseType;
 
-    public Media(int id, String title, String publisher, float cost, int runningTime, String caseType) {
+    Media(int id, String title, String publisher, float cost, int runningTime, String caseType) {
         super(id, title, publisher, cost);
         this.runningTime = runningTime;
         this.caseType = caseType;

@@ -21,15 +21,15 @@ public class JournalProperties extends PaperProperties {
         addProperty(issueDateProperty);
     }
 
-    public StringProperty getIssnProperty() {
+    private StringProperty getIssnProperty() {
         return issnProperty;
     }
 
-    public IntegerProperty getIssueNumberProperty() {
+    private IntegerProperty getIssueNumberProperty() {
         return issueNumberProperty;
     }
 
-    public LocalDateProperty getIssueDateProperty() {
+    private LocalDateProperty getIssueDateProperty() {
         return issueDateProperty;
     }
 

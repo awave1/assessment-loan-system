@@ -15,11 +15,11 @@ public class VideoProperties extends MediaProperties {
         addProperty(genreProperty);
     }
 
-    public StringProperty getFormatProperty() {
+    private StringProperty getFormatProperty() {
         return formatProperty;
     }
 
-    public StringProperty getGenreProperty() {
+    private StringProperty getGenreProperty() {
         return genreProperty;
     }
 

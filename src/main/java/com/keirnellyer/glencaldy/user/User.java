@@ -10,7 +10,7 @@ public abstract class User {
     private Session session = null;
     private UserInfo info = new UserInfo();
 
-    public User(String username, String password) {
+    User(String username, String password) {
         this.username = username;
         this.password = password;
 
@@ -19,7 +19,7 @@ public abstract class User {
             .setPassword(password);
     }
 
-    public User(UserInfo info) {
+    User(UserInfo info) {
         this.username = info.getUsername();
         this.password = info.getPassword();
         this.info = info;

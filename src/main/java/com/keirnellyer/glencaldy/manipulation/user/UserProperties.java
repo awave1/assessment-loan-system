@@ -6,7 +6,7 @@ import com.keirnellyer.glencaldy.manipulation.property.type.StringProperty;
 import com.keirnellyer.glencaldy.user.User;
 import com.keirnellyer.glencaldy.user.UserInfo;
 
-public abstract class UserProperties extends PropertyManager {
+abstract class UserProperties extends PropertyManager {
     private final StringProperty usernameProperty = new StringProperty("Please enter the username.", false);
     private final StringProperty passwordProperty = new StringProperty("Please enter the password.");
 

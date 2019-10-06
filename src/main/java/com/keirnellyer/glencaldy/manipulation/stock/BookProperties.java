@@ -15,11 +15,11 @@ public class BookProperties extends PaperProperties {
         addProperty(authorProperty);
     }
 
-    public StringProperty getIsbnProperty() {
+    private StringProperty getIsbnProperty() {
         return isbnProperty;
     }
 
-    public StringProperty getAuthorProperty() {
+    private StringProperty getAuthorProperty() {
         return authorProperty;
     }
 

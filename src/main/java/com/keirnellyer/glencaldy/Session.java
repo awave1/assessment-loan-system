@@ -9,7 +9,7 @@ public class Session {
         this(computerId, System.currentTimeMillis());
     }
 
-    public Session(int computerId, long loginTime) {
+    private Session(int computerId, long loginTime) {
         this.computerId = computerId;
         this.loginTime = loginTime;
     }

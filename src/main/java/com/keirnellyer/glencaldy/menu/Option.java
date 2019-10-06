@@ -5,7 +5,7 @@ import java.util.Scanner;
 public abstract class Option {
     private final String name;
 
-    public Option(String name) {
+    protected Option(String name) {
         this.name = name;
     }
 

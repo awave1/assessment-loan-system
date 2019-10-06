@@ -5,26 +5,26 @@ import com.keirnellyer.glencaldy.manipulation.property.InputResult;
 import com.keirnellyer.glencaldy.manipulation.property.type.IntegerProperty;
 import com.keirnellyer.glencaldy.manipulation.property.type.StringProperty;
 
-public class PaperProperties extends ItemProperties {
+class PaperProperties extends ItemProperties {
     private final StringProperty subjectProperty = new StringProperty("Please enter the subject area.");
     private final IntegerProperty pagesProperty = new IntegerProperty("Please enter the amount of pages.");
 
-    public PaperProperties() {
+    PaperProperties() {
         super();
 
         addProperty(subjectProperty);
         addProperty(pagesProperty);
     }
 
-    public StringProperty getSubjectProperty() {
+    StringProperty getSubjectProperty() {
         return subjectProperty;
     }
 
-    public IntegerProperty getPagesProperty() {
+    IntegerProperty getPagesProperty() {
         return pagesProperty;
     }
 
-    public void updatePaper(Paper item, InputResult result) {
+    void updatePaper(Paper item, InputResult result) {
         super.updateItem(item, result);
 
         String subject = result.getValue(subjectProperty);
