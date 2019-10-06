@@ -54,7 +54,8 @@ public class StaffProperties extends CasualProperties {
         if (extension != null) user.setExtension(extension);
     }
 
-    private UserInfo processInput(InputResult result) {
+    @Override
+    public UserInfo processInput(InputResult result) {
         UserInfo userInfo = new UserInfo();
 
         return userInfo

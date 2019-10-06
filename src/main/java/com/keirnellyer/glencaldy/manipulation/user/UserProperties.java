@@ -4,26 +4,29 @@ import com.keirnellyer.glencaldy.manipulation.property.PropertyManager;
 import com.keirnellyer.glencaldy.manipulation.property.InputResult;
 import com.keirnellyer.glencaldy.manipulation.property.type.StringProperty;
 import com.keirnellyer.glencaldy.user.User;
+import com.keirnellyer.glencaldy.user.UserInfo;
 
-public class UserProperties extends PropertyManager {
+public abstract class UserProperties extends PropertyManager {
     private final StringProperty usernameProperty = new StringProperty("Please enter the username.", false);
     private final StringProperty passwordProperty = new StringProperty("Please enter the password.");
 
-    public UserProperties() {
+    UserProperties() {
         addProperty(usernameProperty);
         addProperty(passwordProperty);
     }
 
-    public StringProperty getUsernameProperty() {
+    StringProperty getUsernameProperty() {
         return usernameProperty;
     }
 
-    public StringProperty getPasswordProperty() {
+    StringProperty getPasswordProperty() {
         return passwordProperty;
     }
 
-    public void updateUser(User user, InputResult result) {
+    void updateUser(User user, InputResult result) {
         String password = result.getValue(passwordProperty);
         if (password != null) user.setPassword(password);
     }
+
+    public abstract UserInfo processInput(InputResult result);
 }
