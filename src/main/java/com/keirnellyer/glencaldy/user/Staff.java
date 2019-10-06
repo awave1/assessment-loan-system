@@ -15,6 +15,13 @@ public class Staff extends Member {
         this.extension = extension;
     }
 
+    public Staff(UserInfo info) {
+        super(info);
+        this.id = info.getStaffId();
+        this.email = info.getEmail();
+        this.extension = info.getExtension();
+    }
+
     public int getId() {
         return id;
     }
@@ -25,6 +32,7 @@ public class Staff extends Member {
 
     public void setEmail(String email) {
         this.email = email;
+        getUserInfo().setEmail(email);
     }
 
     public String getExtension() {
@@ -33,6 +41,7 @@ public class Staff extends Member {
 
     public void setExtension(String extension) {
         this.extension = extension;
+        getUserInfo().setExtension(extension);
     }
 
     @Override

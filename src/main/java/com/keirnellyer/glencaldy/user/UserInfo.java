@@ -16,63 +16,71 @@ public class UserInfo {
         return username;
     }
 
-    public void setUsername(String username) {
+    public UserInfo setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public UserInfo setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public UserInfo setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+        return this;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public UserInfo setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        return this;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public UserInfo setAddress(String address) {
         this.address = address;
+        return this;
     }
 
     public int getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(int staffId) {
+    public UserInfo setStaffId(int staffId) {
         this.staffId = staffId;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public UserInfo setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public String getExtension() {
         return extension;
     }
 
-    public void setExtension(String extension) {
+    public UserInfo setExtension(String extension) {
         this.extension = extension;
+        return this;
     }
 }

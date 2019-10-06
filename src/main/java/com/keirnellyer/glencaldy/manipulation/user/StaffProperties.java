@@ -5,6 +5,7 @@ import com.keirnellyer.glencaldy.manipulation.property.type.IntegerProperty;
 import com.keirnellyer.glencaldy.manipulation.property.type.StringProperty;
 import com.keirnellyer.glencaldy.user.Administrative;
 import com.keirnellyer.glencaldy.user.Staff;
+import com.keirnellyer.glencaldy.user.UserInfo;
 
 import java.time.LocalDate;
 
@@ -21,40 +22,26 @@ public class StaffProperties extends CasualProperties {
         addProperty(extensionProperty);
     }
 
-    public IntegerProperty getStaffIdProperty() {
+    private IntegerProperty getStaffIdProperty() {
         return staffIdProperty;
     }
 
-    public StringProperty getEmailProperty() {
+    private StringProperty getEmailProperty() {
         return emailProperty;
     }
 
-    public StringProperty getExtensionProperty() {
+    private StringProperty getExtensionProperty() {
         return extensionProperty;
     }
 
     public Administrative createAdministrative(InputResult result) {
-        String username = result.getValue(getUsernameProperty());
-        String password = result.getValue(getPasswordProperty());
-        String address = result.getValue(getAddressProperty());
-        String phone = result.getValue(getPhoneProperty());
-        LocalDate birth = result.getValue(getBirthProperty());
-        int staffId = result.getValue(getStaffIdProperty());
-        String email = result.getValue(getEmailProperty());
-        String extension = result.getValue(getExtensionProperty());
-        return new Administrative(username, password, address, phone, birth, staffId, email, extension);
+        UserInfo userInfo = processInput(result);
+        return new Administrative(userInfo);
     }
 
     public Staff createStaff(InputResult result) {
-        String username = result.getValue(getUsernameProperty());
-        String password = result.getValue(getPasswordProperty());
-        String address = result.getValue(getAddressProperty());
-        String phone = result.getValue(getPhoneProperty());
-        LocalDate birth = result.getValue(getBirthProperty());
-        int staffId = result.getValue(getStaffIdProperty());
-        String email = result.getValue(getEmailProperty());
-        String extension = result.getValue(getExtensionProperty());
-        return new Staff(username, password, address, phone, birth, staffId, email, extension);
+        UserInfo userInfo = processInput(result);
+        return new Staff(userInfo);
     }
 
     public void updateStaff(Staff user, InputResult result) {
@@ -65,5 +52,19 @@ public class StaffProperties extends CasualProperties {
 
         if (email != null) user.setEmail(email);
         if (extension != null) user.setExtension(extension);
+    }
+
+    private UserInfo processInput(InputResult result) {
+        UserInfo userInfo = new UserInfo();
+
+        return userInfo
+            .setUsername(result.getValue(getUsernameProperty()))
+            .setPassword(result.getValue(getPasswordProperty()))
+            .setAddress(result.getValue(getAddressProperty()))
+            .setPhoneNumber(result.getValue(getPhoneProperty()))
+            .setBirthDate(result.getValue(getBirthProperty()))
+            .setStaffId(result.getValue(getStaffIdProperty()))
+            .setEmail(result.getValue(getEmailProperty()))
+            .setExtension(result.getValue(getExtensionProperty()));
     }
 }

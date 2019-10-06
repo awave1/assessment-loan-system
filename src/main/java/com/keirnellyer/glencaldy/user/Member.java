@@ -10,12 +10,15 @@ import java.util.Objects;
 
 public class Member extends Casual {
     private int maxQuota = 5;
-
     private final List<Item> reservedItems = new ArrayList<>();
     private final List<Loan> loans = new ArrayList<>();
 
     public Member(String username, String password, String address, String phoneNumber, LocalDate birthDate) {
         super(username, password, address, phoneNumber, birthDate);
+    }
+
+    public Member(UserInfo info) {
+        super(info);
     }
 
     public List<Loan> getLoans() {

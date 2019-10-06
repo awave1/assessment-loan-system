@@ -15,12 +15,20 @@ public class Casual extends User {
         this.birthDate = birthDate;
     }
 
+    public Casual(UserInfo info) {
+        super(info);
+        this.address = info.getAddress();
+        this.phoneNumber = info.getPhoneNumber();
+        this.birthDate = info.getBirthDate();
+    }
+
     public String getAddress() {
         return address;
     }
 
     public void setAddress(String address) {
         this.address = address;
+        getUserInfo().setAddress(address);
     }
 
     public String getPhoneNumber() {
@@ -29,6 +37,7 @@ public class Casual extends User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+        getUserInfo().setPhoneNumber(phoneNumber);
     }
 
     public LocalDate getBirthDate() {
@@ -37,6 +46,7 @@ public class Casual extends User {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+        getUserInfo().setBirthDate(birthDate);
     }
 
     @Override

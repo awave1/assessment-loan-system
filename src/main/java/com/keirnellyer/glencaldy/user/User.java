@@ -8,10 +8,21 @@ public abstract class User {
     private final String username;
     private String password;
     private Session session = null;
+    private UserInfo info = new UserInfo();
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+
+        this.info
+            .setUsername(username)
+            .setPassword(password);
+    }
+
+    public User(UserInfo info) {
+        this.username = info.getUsername();
+        this.password = info.getPassword();
+        this.info = info;
     }
 
     public String getUsername() {
@@ -24,10 +35,15 @@ public abstract class User {
 
     public void setPassword(String password) {
         this.password = password;
+        this.info.setPassword(password);
     }
 
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    public UserInfo getUserInfo() {
+        return info;
     }
 
     public abstract String getTitle();

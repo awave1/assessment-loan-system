@@ -7,6 +7,10 @@ public class Administrative extends Staff {
         super(username, password, address, phoneNumber, birthDate, id, email, extension);
     }
 
+    public Administrative(UserInfo info) {
+        super(info);
+    }
+
     @Override
     public String getTitle() {
         return "Administrative";
