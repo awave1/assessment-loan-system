@@ -46,7 +46,7 @@ public abstract class Property<T> {
     }
 
     private boolean shouldEdit(boolean allowSkip, String input) {
-        return allowSkip ? !InputUtil.checkSkip(input) : !InputUtil.checkAbort(input);
+        return allowSkip ? !InputUtil.checkSkip(input) : InputUtil.checkAbort(input);
     }
 
     protected abstract void ask();

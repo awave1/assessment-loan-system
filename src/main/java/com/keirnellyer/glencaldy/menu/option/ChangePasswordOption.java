@@ -25,7 +25,7 @@ public class ChangePasswordOption extends Option {
         if (confirmIdentity(scanner)) {
             String newPassword = fetchNewPassword(scanner);
 
-            if (!checkAbort(newPassword)) {
+            if (checkAbort(newPassword)) {
                 boolean confirmed = confirmNewPassword(scanner, newPassword);
 
                 if (confirmed) {
@@ -42,7 +42,7 @@ public class ChangePasswordOption extends Option {
         do {
             String enteredPassword = fetchCurrentPassword(scanner);
 
-            if (!checkAbort(enteredPassword)) {
+            if (checkAbort(enteredPassword)) {
                 identityProven = checkPassword(enteredPassword);
 
                 if (!identityProven) {
@@ -78,7 +78,7 @@ public class ChangePasswordOption extends Option {
             System.out.println("Please re-enter your new password.");
             String enteredPassword = scanner.next();
 
-            if (!checkAbort(enteredPassword)) {
+            if (checkAbort(enteredPassword)) {
                 confirmed = newPassword.equals(enteredPassword);
 
                 if (!confirmed) {

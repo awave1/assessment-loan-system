@@ -22,7 +22,7 @@ public class InputUtil {
             System.out.println("Aborting operation.");
         }
 
-        return abort;
+        return !abort;
     }
 
     public static boolean checkSkip(String input) {
