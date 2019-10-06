@@ -1,6 +1,7 @@
 package com.keirnellyer.glencaldy.user;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class UserInfo {
     private String username;
@@ -82,5 +83,25 @@ public class UserInfo {
     public UserInfo setExtension(String extension) {
         this.extension = extension;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInfo userInfo = (UserInfo) o;
+        return getStaffId() == userInfo.getStaffId() &&
+                Objects.equals(getUsername(), userInfo.getUsername()) &&
+                Objects.equals(getPassword(), userInfo.getPassword()) &&
+                Objects.equals(getBirthDate(), userInfo.getBirthDate()) &&
+                Objects.equals(getPhoneNumber(), userInfo.getPhoneNumber()) &&
+                Objects.equals(getAddress(), userInfo.getAddress()) &&
+                Objects.equals(getEmail(), userInfo.getEmail()) &&
+                Objects.equals(getExtension(), userInfo.getExtension());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUsername(), getPassword(), getBirthDate(), getPhoneNumber(), getAddress(), getStaffId(), getEmail(), getExtension());
     }
 }
