@@ -5,10 +5,12 @@ import com.keirnellyer.glencaldy.menu.Menu;
 import com.keirnellyer.glencaldy.repository.StockRepository;
 import com.keirnellyer.glencaldy.repository.UserRepository;
 import com.keirnellyer.glencaldy.user.*;
+import com.keirnellyer.glencaldy.util.ConsoleInput;
 
+import java.util.Optional;
 import java.util.Scanner;
 
-public class Controller implements Application {
+public class Controller extends ConsoleInput<User> implements Application {
     private static final Model model = new Model();
 
     // by default Scanner uses a space as a delimiter however we always want to
@@ -27,18 +29,35 @@ public class Controller implements Application {
     @Override
     public void start() {
         running = true;
+        setScanner(scanner);
 
         try {
             // creates a new session when the current session is either non-existent or killed
             while (running) {
-                User user = processLogin();
+                Optional<User> user = waitForInput(s -> {
+                    User usr;
+                    System.out.println("Please enter your username.");
+                    String username = scanner.next();
 
-                if (user != null) {
+                    System.out.println("Please enter your password.");
+                    String password = scanner.next();
+
+                    usr = model.getUserRepository().getExact(username, password);
+
+                    if (usr == null) { // invalid credentials
+                        System.out.println("Invalid credentials, please try again.");
+                    }
+
+                    return Optional.of(usr);
+                });
+
+                if (user.isPresent()) {
+                    User usr = user.get();
                     currentSession = new Session(-1);
-                    user.setSession(currentSession);
+                    usr.setSession(currentSession);
 
                     while (running && currentSession.isActive()) {
-                        Menu menu = buildMenu(user);
+                        Menu menu = buildMenu(usr);
                         menu.startMenu(scanner);
                     }
                 }
@@ -54,26 +73,6 @@ public class Controller implements Application {
     @Override
     public void stop() {
         running = false;
-    }
-
-    private User processLogin() {
-        User user;
-
-        do {
-            System.out.println("Please enter your username.");
-            String username = scanner.next();
-
-            System.out.println("Please enter your password.");
-            String password = scanner.next();
-
-            user = model.getUserRepository().getExact(username, password);
-
-            if (user == null) { // invalid credentials
-                System.out.println("Invalid credentials, please try again.");
-            }
-        } while (user == null);
-
-        return user;
     }
 
     private Menu buildMenu(User user) {

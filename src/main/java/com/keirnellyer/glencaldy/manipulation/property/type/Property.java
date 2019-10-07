@@ -1,11 +1,13 @@
 package com.keirnellyer.glencaldy.manipulation.property.type;
 
 import com.keirnellyer.glencaldy.exception.InputException;
+import com.keirnellyer.glencaldy.util.ConsoleInput;
 import com.keirnellyer.glencaldy.util.InputUtil;
 
+import java.util.Optional;
 import java.util.Scanner;
 
-public abstract class Property<T> {
+public abstract class Property<T> extends ConsoleInput<T> {
     private boolean editable = true;
 
     Property() {}
@@ -19,30 +21,31 @@ public abstract class Property<T> {
     }
 
     public final T fetchValue(Scanner scanner, boolean allowSkip) {
-        T value = null;
+        setScanner(scanner);
 
-        do {
+        Optional<T> value = waitForInput(s -> {
+            T val = null;
             ask();
 
             String input = scanner.next();
 
             if (shouldEdit(allowSkip, input)) {
                 try {
-                    value = parse(input);
+                    val = parse(input);
 
-                    if (value == null) {
+                    if (val == null) {
                         System.out.println("Something went wrong there, please try again.");
                     }
                 } catch (InputException e) {
                     System.out.println("Input error occurred: " + e.getMessage());
                     System.out.println("Please try again.");
                 }
-            } else {
-                return null;
             }
-        } while (value == null);
 
-        return value;
+            return Optional.of(val);
+        });
+
+        return value.orElse(null);
     }
 
     private boolean shouldEdit(boolean allowSkip, String input) {

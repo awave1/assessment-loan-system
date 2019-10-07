@@ -17,18 +17,21 @@ import com.keirnellyer.glencaldy.repository.StockRepository;
 import com.keirnellyer.glencaldy.repository.UserRepository;
 import com.keirnellyer.glencaldy.runtime.Application;
 import com.keirnellyer.glencaldy.user.*;
+import com.keirnellyer.glencaldy.util.ConsoleInput;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
 
-public class Menu {
+public class Menu extends ConsoleInput<Option> {
     private final String title;
 
     private char charIndex = 'a';
     private final Map<String, Option> items = new LinkedHashMap<>(); // linked hashmap preserves insertion order
 
     public Menu(String title) {
+        super();
         this.title = title;
     }
 
@@ -41,31 +44,26 @@ public class Menu {
     }
 
     public void startMenu(Scanner scanner) {
+        setScanner(scanner);
         displayMenu();
 
-        Option option = fetchMenuOption(scanner);
-
-        if (option != null) {
-            System.out.println();
-            option.start(scanner);
-            System.out.println();
-        }
-    }
-
-    private Option fetchMenuOption(Scanner scanner) {
-        Option option;
-
-        do {
+        Optional<Option> option = waitForInput(s -> {
             System.out.println("Please enter a menu option.");
-            String userOption = scanner.next();
-            option = items.get(userOption);
+            String userOption = s.next();
+            Option o = items.get(userOption);
 
-            if (option == null) {
+            if (o == null) {
                 System.out.println("Invalid menu option, please try again.");
             }
-        } while (option == null);
 
-        return option;
+            return Optional.of(o);
+        });
+
+        if (option.isPresent()) {
+            System.out.println();
+            option.get().start(scanner);
+            System.out.println();
+        }
     }
 
     private void displayMenu() {
