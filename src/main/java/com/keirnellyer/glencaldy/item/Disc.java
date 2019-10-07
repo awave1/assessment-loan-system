@@ -1,5 +1,8 @@
 package com.keirnellyer.glencaldy.item;
 
+import com.keirnellyer.glencaldy.menu.option.stock.SelectItem;
+import com.keirnellyer.glencaldy.util.MenuVisitor;
+
 import java.util.Objects;
 
 public class Disc extends Media {
@@ -65,5 +68,10 @@ public class Disc extends Media {
                 ", tracks=" + tracks +
                 ", artist='" + artist + '\'' +
                 "} " + super.toString();
+    }
+
+    @Override
+    public SelectItem<Disc> accept(MenuVisitor menuVisitor) {
+        return menuVisitor.addDisc(this);
     }
 }

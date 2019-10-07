@@ -1,5 +1,8 @@
 package com.keirnellyer.glencaldy.item;
 
+import com.keirnellyer.glencaldy.menu.option.stock.SelectItem;
+import com.keirnellyer.glencaldy.util.MenuVisitor;
+
 import java.util.Objects;
 
 public abstract class Item {
@@ -72,4 +75,6 @@ public abstract class Item {
                 ", cost=" + cost +
                 '}';
     }
+
+    public abstract SelectItem<? extends Item> accept(MenuVisitor menuVisitor);
 }

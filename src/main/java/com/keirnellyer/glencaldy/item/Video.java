@@ -1,5 +1,8 @@
 package com.keirnellyer.glencaldy.item;
 
+import com.keirnellyer.glencaldy.menu.option.stock.SelectItem;
+import com.keirnellyer.glencaldy.util.MenuVisitor;
+
 import java.util.Objects;
 
 public class Video extends Media {
@@ -54,5 +57,10 @@ public class Video extends Media {
                 "format='" + format + '\'' +
                 ", genre='" + genre + '\'' +
                 "} " + super.toString();
+    }
+
+    @Override
+    public SelectItem<Video> accept(MenuVisitor menuVisitor) {
+        return menuVisitor.addVideo(this);
     }
 }

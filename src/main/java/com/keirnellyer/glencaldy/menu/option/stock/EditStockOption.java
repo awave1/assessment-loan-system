@@ -4,6 +4,7 @@ import com.keirnellyer.glencaldy.item.*;
 import com.keirnellyer.glencaldy.menu.Menu;
 import com.keirnellyer.glencaldy.menu.Option;
 import com.keirnellyer.glencaldy.repository.StockRepository;
+import com.keirnellyer.glencaldy.util.MenuVisitor;
 
 import java.util.Scanner;
 
@@ -22,29 +23,10 @@ public class EditStockOption extends Option {
 
     @Override
     public void start(Scanner scanner) {
-        System.out.printf(STOCK_FORMAT, STOCK_HEADER);
-
         Menu menu = new Menu("Select Stock (by id)");
+        MenuVisitor menuVisitor = new MenuVisitor();
 
-        for (Item item : stockRepository.getAll()) {
-            System.out.printf(STOCK_FORMAT, item.getId(), item.getStockType(), item.getName());
-
-            String selector = String.valueOf(item.getId());
-
-            if (item instanceof Book) {
-                Book book = (Book) item;
-                menu.addItem(selector, new SelectItem<>(book, BOOK_MANAGER, BOOK_MANIPULATOR));
-            } else if (item instanceof Disc) {
-                Disc disc = (Disc) item;
-                menu.addItem(selector, new SelectItem<>(disc, DISC_MANAGER, DISC_MANIPULATOR));
-            } else if (item instanceof Journal) {
-                Journal journal = (Journal) item;
-                menu.addItem(selector, new SelectItem<>(journal, JOURNAL_MANAGER, JOURNAL_MANIPULATOR));
-            } else if (item instanceof Video) {
-                Video video = (Video) item;
-                menu.addItem(selector, new SelectItem<>(video, VIDEO_MANAGER, VIDEO_MANIPULATOR));
-            }
-        }
+        menuVisitor.build(menu, stockRepository.getAll());
 
         System.out.println();
         menu.startMenu(scanner);
