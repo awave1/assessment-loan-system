@@ -1,0 +1,86 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{fontspec}
+\setmainfont{SFNS Display}
+
+\usepackage{geometry}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage[
+ unicode=true,
+ pdfusetitle,
+ bookmarks=true,
+ bookmarksnumbered=false,
+ bookmarksopen=false,
+ breaklinks=false,
+ pdfborder={0 0 1},
+ backref=false,
+ colorlinks=false
+]{hyperref}
+
+\usepackage{color}
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{pred}{rgb}{0.9,0,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+
+\usepackage{listings}
+\lstset{language=Java,
+  showspaces=false,
+  showtabs=false,
+  breaklines=true,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  commentstyle=\color{pgreen},
+  keywordstyle=\color{pblue},
+  stringstyle=\color{pred},
+  basicstyle=\ttfamily,
+  moredelim=[il][\textcolor{pgrey}]{\$\$},
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+
+\title{CPSC 501 -- Assignment 1}
+
+\author{Artem Golovin}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{What code in which files was altered?}
+
+% What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+
+\begin{lstlisting}[language=Java]
+// TODO
+\end{lstlisting}
+
+
+\section{What needed to be improved?}
+
+The original project was not necessarily badly designed. It did contain some code smells and thus required some refactorings.
+
+% What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+
+\section{What refactoring were applied?}
+
+% What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system. 
+
+\section{What code in what files was the result of the refactoring?}
+
+% What code in what files was the result of the refactoring.
+
+\section{How was the code tested?}
+
+% How was the code tested?
+
+\section{Why is the code better structured after the refactoring?}
+
+% Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
+
+\end{document}
