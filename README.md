@@ -24,12 +24,49 @@ Building the project
 Running the project
 
 ```bash
-./gradlew run
+./gradlew run --console=plain
 ```
+
+Example of running the program:
+
+```bash
+$ ./gradlew run --console=plain
+> Task :compileJava UP-TO-DATE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+
+> Task :run
+Please enter your username.
+admin
+Please enter your password.
+password
+*** Administrative Options ***
+a) Search Catalogue
+b) View Loans
+c) Create User
+d) List Users
+e) Create Stock
+f) Edit Stock
+g) List Stock
+h) Record Loan
+i) Record Return
+j) Edit Profile
+k) Logout
+l) Exit Application
+
+Please enter a menu option.
+l
+
+BUILD SUCCESSFUL in 15s
+2 actionable tasks: 1 executed, 1 up-to-date
+```
+
+Additional users can be found in [`com.keirnellyer.glencaldy.runtime.Model` class](https://github.com/awave1/assessment-loan-system/blob/refactor/src/main/java/com/keirnellyer/glencaldy/runtime/Model.java#L28)
 
 ## Running the tests
 
 The project contains some tests. Testing is done via JUnit5. To run the tests, run the following command in the project directory:
+
 ```bash
 ./gradlew clean test
 ```
