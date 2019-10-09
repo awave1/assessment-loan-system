@@ -117,3 +117,8 @@ hs_err_pid*
 build/
 
 # End of https://www.gitignore.io/api/java,intellij
+#
+*.aux
+__latexindent_temp.tex
+*.out
+*.synctex.gz

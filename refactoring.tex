@@ -1,3 +1,5 @@
+% !TEX program = xelatex
+
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{fontspec}
@@ -9,19 +11,13 @@
 \usepackage{setspace}
 \onehalfspacing
 \usepackage[
- unicode=true,
- pdfusetitle,
- bookmarks=true,
- bookmarksnumbered=false,
- bookmarksopen=false,
- breaklinks=false,
- pdfborder={0 0 1},
- backref=false,
- colorlinks=false
+  colorlinks=true,
+  linkcolor=blue,
+  filecolor=blue,
+  urlcolor=blue,
 ]{hyperref}
 
 \usepackage{color}
-
 \definecolor{pblue}{rgb}{0.13,0.13,1}
 \definecolor{pgreen}{rgb}{0,0.5,0}
 \definecolor{pred}{rgb}{0.9,0,0}
@@ -42,45 +38,172 @@
   moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
 }
 
+\renewcommand{\b}[1]{\textbf{#1}}
+\renewcommand{\i}[1]{\textit{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+% \newcommand{\gh_commit}[1]{\href{https://github.com/awave1/assessment-loan-system/commit/#1}{#1}}
 
-\title{CPSC 501 -- Assignment 1}
+% \newcommand*{\gh}[2][]{\href{https://github.com/awave1/assessment-loan-system/commit/#2}%
+%                               {\ifthenelse{\equal{#1}{}}{#2}{#1}}}
 
-\author{Artem Golovin}
+\newcommand{\gh}[1]{%
+  \href{https://github.com/awave1/assessment-loan-system/commit/#1}{#1}%
+}
 
+\title{\b{CPSC 501 -- Assignment 1}}
+
+\author{\b{Artem Golovin} \\ 30018900}
 \date{}
 
 \begin{document}
 \maketitle
 
-\section{What code in which files was altered?}
+% 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+% 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+% 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+% 4.What code in what files was the result of the refactoring.
+% 5.How was the code tested?
+% 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
 
-% What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+\section*{Overview}
+
+The project that was refactored for this assignment is \href{https://github.com/iKeirNez/assessment-loan-system}{iKeirNez/assessment-loan-system}. To preform refactoring on the project, the following fork was created \href{https://github.com/awave1/assessment-loan-system}{awave1/assessment-loan-system}. The fork contains two branches: \code{master} and \code{refactor}. The initial work is left untouched in \code{master} branch and the refactoring was done in \code{refactor} branch. To simplify the access, \code{refactor} branch is default (main) branch.
+
+Original project did not include any README or instructions how to get up and running with the project, therefore I included \href{https://github.com/awave1/assessment-loan-system/blob/refactor/README.md}{README}, describing the steps necessary to build, run, and test the code. To make it easier to manage dependencies and to build the project, I added support for \href{https://gradle.org/}{gradle}.
+
+  \subsection*{Refactoring structure}
+
+  The refactorings that were made in the project, can be categorized into three categories: \b{minor}, \b{medium} and \b{major}. \b{Minor} refactorings were usually made together with \b{major} and \b{minor} refactorings, thus no commits were directly dedicated to \b{minor} refactorings.
+
+\newpage
+
+\section*{Major changes}
+
+This section explains and displays the number of \b{major} changes that were made to the project during refactoring process. Each major change is associated with commit hash.
+
+\subsection*{Using Visitor pattern to eliminate \code{instanceof} checking (\gh{2534ae1e})}
+% https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02
+
+\subsection*{Abstracting busy waiting for user input (\gh{bd538f0})}
+% https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d
+% 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+The application relies on input from keyboard. In classes, where the user input is required, the original code included use of \code{do \{ ... \} while(...);} loops, to wait for valid user input. User input is required in \code{Property<T>} (and its subclasses), \code{Menu} and \code{Controller}. As a result, \code{do \{ ... \} while(...);} loop has been moved to separate class called \code{ConsoleInput<T>}, in method \code{public Optional<T> waitForInput(InputWait<T> inputWait)}. \code{InputWait<T>} is an interface with only one method, passing it as a parameter allows us to pass anonymous lambda function (e.g. \code{arg -> \{/* function body */\}}) as a parameter, instead of implementing a method, that was declared in the interface. The following is the implementation of \code{waitForInput} method:
 
 \begin{lstlisting}[language=Java]
-// TODO
+public Optional<T> waitForInput(InputWait<T> inputWait) {
+  Optional<T> fetchedObj;
+  do {
+    fetchedObj = inputWait.getInput(this.scanner);
+  } while (!fetchedObj.isPresent());
+
+  return fetchedObj;
+}
 \end{lstlisting}
 
+When \code{waitForInput} is called, we have to supply instance of \code{InputWait}, for example:
 
-\section{What needed to be improved?}
+\begin{lstlisting}[language=Java]
+// Set the scanner
+setScanner(scanner);
+Optional<Option> option = waitForInput(scnr -> {
+  /*
+   * Do all the necessary things here, using Scanner scnr variable
+   */
 
-The original project was not necessarily badly designed. It did contain some code smells and thus required some refactorings.
+  // Return Optional object result
+  return Optional.of(obj);
+});
 
-% What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+//... Optional<Option> option can later be safely unwrapped and used
+\end{lstlisting}
 
-\section{What refactoring were applied?}
+% 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+By abstracting the \code{do\{...\} while()} loop into a separate method, we got rid of duplicated code and made it more readable. Also other simple classes that need to wait for user input can now inherit this class and call \code{waitForInput}.
 
-% What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system. 
+% 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+To do this refactoring, \b{Replace Method with Method object} technique was used. For example, with this technique applied, we got rid of \code{processLogin} method in \code{User} class, so the following code:
 
-\section{What code in what files was the result of the refactoring?}
+\begin{lstlisting}[language=Java]
+private User processLogin() {
+  User user;
+  do {
+    System.out.println("Please enter your username.");
+    String username = scanner.next();
 
-% What code in what files was the result of the refactoring.
+    System.out.println("Please enter your password.");
+    String password = scanner.next();
 
-\section{How was the code tested?}
+    user = model.getUserRepository().getExact(username, password);
 
-% How was the code tested?
+    if (user == null) { // invalid credentials
+      System.out.println("Invalid credentials, please try again.");
+    }
+  } while (user == null);
 
-\section{Why is the code better structured after the refactoring?}
+  return user;
+}
+\end{lstlisting}
 
-% Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
+\noindent was replaced with:
+\begin{lstlisting}[language=Java]
+Optional<User> user = waitForInput(s -> {
+  User usr;
+  System.out.println("Please enter your username.");
+  String username = scanner.next();
+
+  if (user != null) {
+    System.out.println("Please enter your password.");
+    String password = scanner.next();
+    usr = model.getUserRepository().getExact(username, password);
+    if (usr == null) { // invalid credentials
+      System.out.println("Invalid credentials, please try again.");
+    }
+
+    return Optional.of(usr);
+});
+\end{lstlisting}
+
+% 4.What code in what files was the result of the refactoring.
+
+The following files were changed and added as a result of this refactoring:
+\begin{itemize}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-1c55a45f266eb74be0a94a96e52a6c2a}{src/main/java/com/keirnellyer/glencaldy/manipulation/property/type/Property.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-d9f6cc6de5b899354d46d7795b29022c}{src/main/java/com/keirnellyer/glencaldy/menu/Menu.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-0f417f930dba04b27baaa509b7b80bbf}{src/main/java/com/keirnellyer/glencaldy/runtime/Controller.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-a28d2a28f9e29d7231bd79421f225da1}{src/main/java/com/keirnellyer/glencaldy/runtime/Controller.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-a28d2a28f9e29d7231bd79421f225da1}{src/main/java/com/keirnellyer/glencaldy/util/ConsoleInput.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-c2879e1c4aeb580d558cae1973565454}{src/main/java/com/keirnellyer/glencaldy/util/InputWait.java}
+\end{itemize}
+
+% 5.How was the code tested?
+
+TODO
+
+% 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
+
+Adding \code{ConsoleInput<T>} allows us to add ability to use busy-waiting on any class, by utilizing Java Generics.
+
+\subsection*{TODO (\gh{fcaddaa8}, \gh{8fb88595})}
+% 1. https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8
+% 2. https://github.com/awave1/assessment-loan-system/commit/8fb88595a52dbac288d6425c3187bca65bd16a88
+
+\section*{Medium changes}
+
+\subsection*{TODO (\gh{67287c0})}
+% https://github.com/awave1/assessment-loan-system/commit/67287c032e1134f22c6814f7fc4444dedbe694ff
+
+\subsection*{TODO (\gh{aef6c56})}
+% https://github.com/awave1/assessment-loan-system/commit/aef6c56b44100119cbf74f7b0781316c9ec98bd0
+
+\subsection*{TODO (\gh{b6b0c98}, \gh{8a898a0})}
+% https://github.com/awave1/assessment-loan-system/commit/b6b0c982f35695c9f9bb0eea222788ba911f6f26
+% https://github.com/awave1/assessment-loan-system/commit/8a898a0ca9406ffb32fb65c40485973b1f50e97a
+
+\subsection*{TODO (\gh{ad3147})}
+% https://github.com/awave1/assessment-loan-system/commit/ad3147c13281bdfa24cbdba143867c95cdd55d1f
+
+% \begin{lstlisting}[language=Java]
+% // TODO
+% \end{lstlisting}
 
 \end{document}
