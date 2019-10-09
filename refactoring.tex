@@ -83,9 +83,19 @@ This section explains and displays the number of \b{major} changes that were mad
 
 \subsection*{Using Visitor pattern to eliminate \code{instanceof} checking (\gh{2534ae1e})}
 % https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02
+% 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+
+% 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+
+% 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+
+% 4.What code in what files was the result of the refactoring.
+
+% 5.How was the code tested?
+
+% 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
 
 \subsection*{Abstracting busy waiting for user input (\gh{bd538f0})}
-% https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d
 % 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
 The application relies on input from keyboard. In classes, where the user input is required, the original code included use of \code{do \{ ... \} while(...);} loops, to wait for valid user input. User input is required in \code{Property<T>} (and its subclasses), \code{Menu} and \code{Controller}. As a result, \code{do \{ ... \} while(...);} loop has been moved to separate class called \code{ConsoleInput<T>}, in method \code{public Optional<T> waitForInput(InputWait<T> inputWait)}. \code{InputWait<T>} is an interface with only one method, passing it as a parameter allows us to pass anonymous lambda function (e.g. \code{arg -> \{/* function body */\}}) as a parameter, instead of implementing a method, that was declared in the interface. The following is the implementation of \code{waitForInput} method:
 
@@ -164,7 +174,6 @@ Optional<User> user = waitForInput(s -> {
 \end{lstlisting}
 
 % 4.What code in what files was the result of the refactoring.
-
 The following files were changed and added as a result of this refactoring:
 \begin{itemize}
   \item \href{https://github.com/awave1/assessment-loan-system/commit/bd538f05a6fbff8283b397c9a265040ab082542d#diff-1c55a45f266eb74be0a94a96e52a6c2a}{src/main/java/com/keirnellyer/glencaldy/manipulation/property/type/Property.java}
@@ -176,11 +185,9 @@ The following files were changed and added as a result of this refactoring:
 \end{itemize}
 
 % 5.How was the code tested?
-
-TODO
+To test \code{ConsoleInput<T>}, I had to mock user input, using \code{ByteArrayInputStream}. There are four tests for this class, located in \code{ConsoleInputTest}. Two tests are used to test \code{ConsoleInput<User>} and one more to test and display functionality using built in object \code{ConsoleInput<String>}.
 
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
-
 Adding \code{ConsoleInput<T>} allows us to add ability to use busy-waiting on any class, by utilizing Java Generics.
 
 \subsection*{TODO (\gh{fcaddaa8}, \gh{8fb88595})}

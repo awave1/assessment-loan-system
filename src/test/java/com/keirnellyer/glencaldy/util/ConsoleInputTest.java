@@ -3,7 +3,6 @@ package com.keirnellyer.glencaldy.util;
 import com.keirnellyer.glencaldy.user.Casual;
 import com.keirnellyer.glencaldy.user.User;
 import com.keirnellyer.glencaldy.user.UserInfo;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,23 +14,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ConsoleInputTest {
 
-    ByteArrayInputStream validInput;
-    ByteArrayInputStream invalidInput;
+    ByteArrayInputStream validUserCredentialsInput;
+    ByteArrayInputStream invalidUserCredentialsInput;
+    ByteArrayInputStream validStringInput;
 
     @BeforeEach
     void setUp() {
-        validInput = new ByteArrayInputStream("username\npassword\n".getBytes());
-        invalidInput = new ByteArrayInputStream("username\n".getBytes());
-    }
-
-    @AfterEach
-    void tearDown() {
+        validUserCredentialsInput = new ByteArrayInputStream("username\npassword\n".getBytes());
+        invalidUserCredentialsInput = new ByteArrayInputStream("username\n".getBytes());
+        validStringInput = new ByteArrayInputStream("hey there".getBytes());
     }
 
     @Test
-    void shouldGetTheCorrectInput() {
+    void shouldGetTheCorrectUser() {
         ConsoleInput<User> input = new ConsoleInput<>();
-        input.setScanner(new Scanner(validInput));
+        input.setScanner(new Scanner(validUserCredentialsInput));
         Optional<User> user = input.waitForInput(scanner -> {
             String username = scanner.nextLine();
             String password = scanner.nextLine();
@@ -46,7 +43,7 @@ class ConsoleInputTest {
     @Test
     void shouldNotGetUserObject() {
         ConsoleInput<User> input = new ConsoleInput<>();
-        input.setScanner(new Scanner(invalidInput));
+        input.setScanner(new Scanner(invalidUserCredentialsInput));
         Optional<User> user = input.waitForInput(scanner -> {
             if (scanner.hasNext()) {
                 String username = scanner.nextLine();
@@ -60,6 +57,16 @@ class ConsoleInputTest {
         });
 
         assertFalse(user.isPresent());
+    }
+
+    @Test
+    void shouldGetCorrectString() {
+        ConsoleInput<String> input = new ConsoleInput<>();
+        input.setScanner(new Scanner(validStringInput));
+
+        Optional<String> str = input.waitForInput(scanner -> Optional.of(scanner.nextLine()));
+        assertTrue(str.isPresent());
+        assertEquals("hey there", str.get());
     }
 
     private Optional<User> getUser(String username, String password) {
