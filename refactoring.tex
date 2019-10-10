@@ -22,6 +22,7 @@
 \definecolor{pgreen}{rgb}{0,0.5,0}
 \definecolor{pred}{rgb}{0.9,0,0}
 \definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{bg}{rgb}{0.96, 0.96, 0.96}
 
 \usepackage{listings}
 \lstset{language=Java,
@@ -30,12 +31,15 @@
   breaklines=true,
   showstringspaces=false,
   breakatwhitespace=true,
+  stepnumber=1,
+  numbers=left,
   commentstyle=\color{pgreen},
   keywordstyle=\color{pblue},
   stringstyle=\color{pred},
   basicstyle=\ttfamily,
   moredelim=[il][\textcolor{pgrey}]{\$\$},
-  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+  moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%},
+  backgroundcolor = \color{bg}
 }
 
 \renewcommand{\b}[1]{\textbf{#1}}
@@ -258,20 +262,91 @@ To test \code{ConsoleInput<T>}, I had to mock user input, using \code{ByteArrayI
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
 Adding \code{ConsoleInput<T>} allows us to add ability to use busy-waiting on any class, by utilizing Java Generics.
 
-\subsection*{TODO (\gh{fcaddaa8}, \gh{8fb88595})}
-% 1. https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8
-% 2. https://github.com/awave1/assessment-loan-system/commit/8fb88595a52dbac288d6425c3187bca65bd16a88
+\subsection*{Add \code{UserInfo} class to eliminate long parameter list for \code{User} classes (\gh{fcaddaa8}, \gh{8fb88595})}
 % 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
-
-% 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+This refactoring affected all of the \code{User} classes, so \code{User} and its child classes. All of these classes required a lot of parameters when creating a new object. To eliminate long parameter list, I introduced a \code{UserInfo} class. \code{UserInfo} class uses chaining methods to build information about a required user type. It also contains every possible field that any given \code{User} might use. By doing so, we can use it in all of the \code{User} child classes. As a result, \code{User} now has a \code{UserInfo} field and every set method now has to also set the value for \code{UserInfo} field.
 
 % 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+To perform this refactoring, I applied ``Extract Class'' technique. Here's the snippet of \code{UserInfo} class
+
+\begin{lstlisting}[language=Java]
+public class UserInfo {
+  private String username;
+  private String password;
+  private LocalDate birthDate;
+  private String phoneNumber;
+  private String address;
+  private int staffId;
+  private String email;
+  private String extension;
+
+  // ... setters and getters
+
+  // Example of a setter
+  // As you can see, it returns this to enable chaining setters
+  public UserInfo setUsername(String username) {
+    this.username = username;
+    return this;
+  }
+}
+\end{lstlisting}
+
+\noindent This data class allowed to replace long parameter constructors like these:
+
+\begin{lstlisting}[language=Java]
+public Administrative(String username, String password, String address, String phoneNumber, LocalDate birthDate, int id, String email, String extension) {
+    super(username, password, address, phoneNumber, birthDate, id, email, extension);
+}
+\end{lstlisting}
+
+\noindent with this:
+\begin{lstlisting}[language=Java]
+public Administrative(UserInfo info) {
+    super(info);
+}
+\end{lstlisting}
 
 % 4.What code in what files was the result of the refactoring.
+The following files were changed as a result of this refactoring:
+\begin{itemize}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-5a0e9b14541283daee7c9eed50aa74cc}{src/main/java/com/keirnellyer/glencaldy/manipulation/user/StaffProperties.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-4a7373ea05df51d34c2533824251b057}{src/main/java/com/keirnellyer/glencaldy/user/Administrative.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-7338aa10a391d939436dc47f59059277}{src/main/java/com/keirnellyer/glencaldy/user/Casual.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-7338aa10a391d939436dc47f59059277}{src/main/java/com/keirnellyer/glencaldy/user/Member.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-87bac8dd50b911a677e2d06aa0e2e5a3}{src/main/java/com/keirnellyer/glencaldy/user/Staff.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-5e515c5505a969c1bd2e93523ab6c124}{src/main/java/com/keirnellyer/glencaldy/user/User.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/fcaddaa808bff70b463e9c852aa1653040a01ab8?diff=split#diff-88553ab84e0d52c8cedbc9e311377b99}{src/main/java/com/keirnellyer/glencaldy/user/UserInfo.java}
+\end{itemize}
 
 % 5.How was the code tested?
+The testing of this code was done in commit \gh{8fb88595}. To test \code{UserInfo}, I created instance of \code{UserInfo} object and passed it to one of child classes of \code{User} and then, using Java \code{equals} I compared the object I created with instance of it in \code{User} subclass:
+
+\begin{lstlisting}[language=Java]
+@Test
+void shouldCreateAdministrativeObjectUsingUserInfo() {
+  UserInfo userInfo = new UserInfo();
+  userInfo
+    .setUsername("user")
+    .setPassword("pass")
+    .setAddress("addr")
+    .setPhoneNumber("1243")
+    .setBirthDate(LocalDate.of(2019, 3, 3))
+    .setStaffId(1)
+    .setEmail("email@email.com")
+    .setExtension("ext");
+
+  assertNotNull(userInfo);
+
+  Administrative admin = new Administrative(userInfo);
+
+  assertNotNull(admin);
+  assertEquals(userInfo, admin.getUserInfo());
+}
+  
+\end{lstlisting}
 
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
+As was stated before, this code gets rid of long constructors. With \code{UserInfo}, it's easy to create and store information about \code{User}s
 
 \section*{Medium changes}
 
