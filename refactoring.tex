@@ -146,7 +146,19 @@ The following files were changed and added as a result of this refactoring:
 \end{itemize}
 
 % 5.How was the code tested?
+To test this code, I added test \code{Item}s that allowed to build the menu with these items and to test \code{visit} methods. For example,
+\begin{lstlisting}[language=Java]
+Menu menu = new Menu("Test Menu");
+menuVisitor.build(menu, stockRepository.getAll());
 
+assertFalse(menu.getItems().isEmpty());
+
+for (int i = 0; i < stockRepository.getAll().size(); i++) {
+  assertNotNull(menu.getItems().get(Integer.toString(i)));
+}
+\end{lstlisting}
+
+\noindent The rest of the methods were simply tested to make sure that they do not return \code{null}, since \code{Menu} class relies on this \code{MenuVisitor} class.
 
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
 With this refactoring applied, code smell has been removed and the code became more OO. We no longer do \code{instanceof} checks, which is considered bad design. As well as in the future, this codebase can now use Visitor pattern thus getting rid of ``100 line'' if statements.
