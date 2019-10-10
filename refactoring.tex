@@ -84,16 +84,72 @@ This section explains and displays the number of \b{major} changes that were mad
 \subsection*{Using Visitor pattern to eliminate \code{instanceof} checking (\gh{2534ae1e})}
 % https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02
 % 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+This substantial refactoring was done at the end when I noticed a block of \code{instanceof} checks that were doing the same thing. To eliminate such code smell and make the code more robust, we make use Visitor pattern. That is, we'll create a special Visitor class that will ``visit'' all required methods, thus removing \code{instanceof} checking and abstracting the functionality. To implement this pattern, I added an abstract method to abstract \code{Item} class:
+
+\begin{lstlisting}[language=Java]
+public abstract class Item {
+  // ...
+  public abstract SelectItem<? extends Item> accept(MenuVisitor visitor);
+}
+\end{lstlisting}
+
+\noindent As you can see, there's a parameter that will need to be passed, \code{MenuVisitor visitor}. \code{MenuVisitor} is our visitor that will be calling specific functions, declared in the \code{MenuVisitor} class. For example:
+
+\begin{lstlisting}[language=Java]
+// MenuVisitor.java
+public class MenuVisitor implements Visitor {
+  // ...
+  @Override
+  public SelectItem<Book> addBook(Book book) {
+    return new SelectItem<>(book, BOOK_MANAGER, BOOK_MANIPULATOR);
+  }
+}
+
+// Book.java
+public class Book extends Item {
+  // ...
+  @Override
+  public SelectItem<Book> addBook(Book book) {
+    return new SelectItem<>(book, BOOK_MANAGER, BOOK_MANIPULATOR);
+  }
+}
+\end{lstlisting}
+
+\noindent Therefore, now instead of performing explicit \code{instanceof} checks, we can do this:
+
+\begin{lstlisting}[language=Java]
+  MenuVisitor menuVisitor = new MenuVisitor();
+  menuVisitor.build(menu, stockRepo.getAll());
+\end{lstlisting}
+
+\noindent and \code{MenuVisitor} will take care of which object to create.
 
 % 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+As was stated above, this improves the code by removing excessive \code{instanceof} checking with much cleaner pattern that could be used in other potential places where a lot of \code{instanceof}'s is used. This improves the readability of the code by encapsulating the details of implementation.
 
 % 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+To perform this refactor, \code{MenuVisitor} and \code{Visitor} were introduced. \code{MenuVisitor} class implements the \code{Visitor} interface that contains ``visit'' methods. Therefore, we introduced a new class and a new interface to Replace Conditional with Polymorphism.
 
 % 4.What code in what files was the result of the refactoring.
 
+The following files were changed and added as a result of this refactoring:
+\begin{itemize}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-54a69d7c35e29e31112b9482279f7728}{src/main/java/com/keirnellyer/glencaldy/item/Book.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-ffa15ba834ac42bda93108046f2e3e1d}{src/main/java/com/keirnellyer/glencaldy/item/Disc.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-1fa65bd290d78e7f9e8a0983709d279f}{src/main/java/com/keirnellyer/glencaldy/item/Item.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-fd27721b429fa9fc4dbaf6aabcd2512d}{src/main/java/com/keirnellyer/glencaldy/item/Journal.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-3d39eb9fe1d2e7bb2073c8b6e612eaa2}{src/main/java/com/keirnellyer/glencaldy/item/Video.java}
+  \item \href{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/EditStockOption.java}{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/EditStockOption.java}
+  \item \href{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/SelectItem.java}{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/SelectItem.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-73e174fc5f923546624d5c4206572c47}{src/main/java/com/keirnellyer/glencaldy/util/MenuVisitor.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/2534ae1e8b711ad62fca8e783b861151951a8f02#diff-ce10c0cc207b42495013fef20915f5ab}{src/main/java/com/keirnellyer/glencaldy/util/Visitor.java}
+\end{itemize}
+
 % 5.How was the code tested?
 
+
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
+With this refactoring applied, code smell has been removed and the code became more OO. We no longer do \code{instanceof} checks, which is considered bad design. As well as in the future, this codebase can now use Visitor pattern thus getting rid of ``100 line'' if statements.
 
 \subsection*{Abstracting busy waiting for user input (\gh{bd538f0})}
 % 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
