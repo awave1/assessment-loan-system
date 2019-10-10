@@ -76,6 +76,10 @@ public class Menu extends ConsoleInput<Option> {
         System.out.println();
     }
 
+    public Map<String, Option> getItems() {
+        return items;
+    }
+
     @Override
     public String toString() {
         return "Menu{" +
