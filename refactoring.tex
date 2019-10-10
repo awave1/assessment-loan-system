@@ -45,10 +45,6 @@
 \renewcommand{\b}[1]{\textbf{#1}}
 \renewcommand{\i}[1]{\textit{#1}}
 \newcommand{\code}[1]{\texttt{#1}}
-% \newcommand{\gh_commit}[1]{\href{https://github.com/awave1/assessment-loan-system/commit/#1}{#1}}
-
-% \newcommand*{\gh}[2][]{\href{https://github.com/awave1/assessment-loan-system/commit/#2}%
-%                               {\ifthenelse{\equal{#1}{}}{#2}{#1}}}
 
 \newcommand{\gh}[1]{%
   \href{https://github.com/awave1/assessment-loan-system/commit/#1}{#1}%
@@ -398,30 +394,73 @@ To test this refactoring, I created a \code{UserRepositoryTest}, where I was abl
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
 This refactor brought better structure to the code by removing duplicates and moving methods to where they actually belong.
 
-\subsection*{TODO (\gh{b6b0c98}, \gh{8a898a0})}
-% https://github.com/awave1/assessment-loan-system/commit/b6b0c982f35695c9f9bb0eea222788ba911f6f26
-% https://github.com/awave1/assessment-loan-system/commit/8a898a0ca9406ffb32fb65c40485973b1f50e97a
+\subsection*{Refactor menu.option, extract UserTypeOption to separate class, introduce UserType and StockItemType  enum, modify accessors (\gh{b6b0c98}, \gh{8a898a0})}
 % 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+This refactoring replaces hardcoded Strings with \code{UserType} and \code{StockItemType} enums, which allows us to reuse the values throughout the code, instead of having to wonder which values to use. On top of that, \code{UserTypeOption} and \code{StockItemOption} were extracted into separate classes, since it didn't make sense to keep them inlined.
 
 % 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
+Menu options relied on hardcoded values, which is a code smell, since such values could be potentially reused. Therefore, by using Extract Class technique, I extracted the values into enums with specific string values attached. For example, here's the \code{UserType} enum:
+\begin{lstlisting}[language=Java]
+public enum UserType {
+  CASUAL("Casual"),
+  FULL("Full"),
+  STAFF("Staff"),
+  ADMIN("Administrative");
+  private String type;
 
-% 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+  UserType(String type) {
+      this.type = type;
+  }
+
+  @Override
+  public String toString() {
+      return this.type;
+  }
+}
+\end{lstlisting}
+
+\noindent This enum has a specific string value attached to each of enum variables. By implementing these enums, I had to replace the parameter type for \code{UserTypeOption} to replace \code{String type} to \code{UserType type}.
 
 % 4.What code in what files was the result of the refactoring.
+
+This refactoring affected the following files:
+
+\begin{itemize}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/8a898a0#diff-c49bd7b5a03092704bbc30ad81eba452}{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/CreateStockOption.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/8a898a0#diff-43064b086900b084b9ba9a0a21259f52}{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/StockItemOption.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/8a898a0#diff-66b4305ce658fffb57183aa2cb087b45}{src/main/java/com/keirnellyer/glencaldy/menu/option/stock/StockItemType.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/8a898a0#diff-324214305313e033e9b728b876641bfb}{src/main/java/com/keirnellyer/glencaldy/menu/option/user/CreateUserOption.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/b6b0c98#diff-6012c42428b9d544f30f47675319c34f}{src/main/java/com/keirnellyer/glencaldy/menu/Option.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/b6b0c98#diff-324214305313e033e9b728b876641bfb}{src/main/java/com/keirnellyer/glencaldy/menu/option/user/CreateUserOption.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/b6b0c98#diff-f1c921e04cdb1c5e682f11c12373172d}{src/main/java/com/keirnellyer/glencaldy/menu/option/user/EditProfileOption.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/b6b0c98#diff-ac72844ef827260c5f789584a63989ee}{src/main/java/com/keirnellyer/glencaldy/menu/option/user/UserType.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/b6b0c98#diff-65cc8c98018c43e208a180c9e71ff560}{src/main/java/com/keirnellyer/glencaldy/menu/option/user/UserTypeOption.java}
+\end{itemize}
 
 % 5.How was the code tested?
+These changes did not require unit testing since all that was changed is String values were replaced with the enums that have the same values.
 
 % 6.Why is the code better structured after the refactoring? Does the result of the refactoring suggest or enable further refactorings?
+This refactoring makes the code more readable and less prone to errors, like typos.
 
-\subsection*{TODO (\gh{ad3147})}
-% https://github.com/awave1/assessment-loan-system/commit/ad3147c13281bdfa24cbdba143867c95cdd55d1f
+\subsection*{Add abstract \code{processInput} method (\gh{ad3147})}
 % 1.What code in which files was altered. (don’t include the full class files, only the parts relevant to the refactoring).
+This refactoring abstracts the \code{processInput} method that was declared twice in \code{CasualProperties} and \code{StaffProperties} by adding abstract \code{processInput} to \code{UserProperties}.
+
+\begin{lstlisting}[language=Java]
+public abstract UserInfo processInput(InputResult result);
+\end{lstlisting}
 
 % 2.What needed to be improved? That is, what “bad code smell” was detected? Use the terminology found in Chapter 3 of the Fowler text available from the course website/D2L.
-
-% 3.What refactoring was applied? What steps did you follow? Use the terminology and mechanics outlined in the Fowler text and illustrate the process with well-chosen code fragments taken from particular versions of your system.
+The code used duplicated method declaration and wasn't very object oriented, therefore, it was fixed by adding the \code{processInput}. This was done using the Pull Up Method technique.
 
 % 4.What code in what files was the result of the refactoring.
+The following files were changed as a result of this refactoring:
+\begin{itemize}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/ad3147#diff-f85e45d663c8d2f926ff2cca080b68a4}{src/main/java/com/keirnellyer/glencaldy/manipulation/user/CasualProperties.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/ad3147#diff-5a0e9b14541283daee7c9eed50aa74cc}{src/main/java/com/keirnellyer/glencaldy/manipulation/user/StaffProperties.java}
+  \item \href{https://github.com/awave1/assessment-loan-system/commit/ad3147#diff-e9112217dc53d4fe93d129cbb49f81e7}{src/main/java/com/keirnellyer/glencaldy/manipulation/user/UserProperties.java}
+\end{itemize}
 
 % 5.How was the code tested?
 
