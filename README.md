@@ -11,6 +11,14 @@ These instructions will get you a copy of the project up and running on your loc
 * Ensure you're using Java 8
 * (Optional) Install [gradle](https://gradle.org)
 
+### Eclipse support
+
+After importing the project to Eclipse, ensure that Gradle is configured. To configure it, do the following
+
+- Right click on the project in the eclipse project explorer
+- Select "Configure"
+- Select "Add Gradle Nature"
+
 ### Installing
 
 A step by step series of examples that tell you how to get a development env running
